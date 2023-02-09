@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+  <body></body>
+
+
+
+
+  <script>
+    // Create canvas
+    const canvas = document.createElement("canvas");
+    canvas.style.backgroundColor = "grey";
+    canvas.width = 500;
+    canvas.height = 500;
+
+    // Create WebGL context
+    document.querySelector("body").appendChild(canvas);
+    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    gl.viewport(0, 0, canvas.width, canvas.height); // draw on the full canvas
+
+    if (!gl) throw new Error("WebGL is not supported"); // if gl is not present in the browser
+
+    // Clear canvas
+    gl.clearColor(0.5, 0.5, 0.5, 1.0); // background color to draw on the canvas -> RGBA
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // Write shader code
+    // Storage Qualifier - Type - Variable Name
+    const vertexShaderSrc = `      
+        attribute vec4 aPosition;  
+        void main () {             
+          gl_Position = aPosition; 
+          gl_PointSize = 3.0;     
+        }                          
+	  `;
+
+    const fragmentShaderSrc = `      
+        precision mediump float;          
+        void main () {               
+          gl_FragColor = vec4(1.0,0.0,0.0,1.0); 
+        }                            
+	  `;
+
+    // Compile vertex shader
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexShaderSrc);
+    gl.compileShader(vertexShader);
+
+    if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+      throw new Error(gl.getShaderInfoLog(vertexShader));
+    }
+
+    // Compile Fragment shader
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentShaderSrc);
+    gl.compileShader(fragmentShader);
+
+    if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+      throw new Error(gl.getShaderInfoLog(fragmentShader));
+    }
+
+    // // Create shader program and link shaders
+    const shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+      throw new Error(gl.getProgramInfoLog(shaderProgram));
+    }
+
+    gl.useProgram(shaderProgram);
+
+    // // Create an attribute location
+    // // Retreive the storage location of the attribute variable specified by the name parameter
+    // // gl.getAttribLocation(program, name)
+    const aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
+
+    const vertexData = new Float32Array([
+      0.5, -0.5, 0.0, 
+      -0.5, -0.5, 0.0, 
+      0.0, 0.5, 0.0,
+
+    //   1.0, -0.5, 0.0, -0.5, -0.5, 0.0, 0.0, 0.5, 0.0,
+
+    //   1.0, 1.0, 0.0, -0.5, -0.5, 0.0, 0.0, 0.5, 0.0,
+
+    //   1.0, -0.5, 0.0, -1.0, -0.5, 0.0, 0.0, 0.5, 0.0,
+    ]);
+
+    const elementPerVertex = 3;
+
+    // // Create and bind buffer
+    const buffer = gl.createBuffer(); // create a buffer object
+    if (!buffer) {
+      throw new Error("no webgl");
+    }
+
+    // // we bind the buffer object to a target
+    // // target tells WebGL what type of data the buffer object contains
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+    // // allocates storage and writes data to the buffer.
+    // // gl.bufferData(target, data, usage)
+    gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
+
+    // // assign the buffer object bound to ARRAYBUFFER to the attribute value specified by location
+    // // gl.vap(location, size, type, normalized, stride, offset)
+    gl.vertexAttribPointer(aPosition, elementPerVertex, gl.FLOAT, false, 0, 0);
+
+    // // Enable the assignment to an attribute variable
+    gl.enableVertexAttribArray(aPosition);
+
+    // // Draw
+    // // execute a vertex shader to draw shapes specified by the mode parameter
+    // // gl.drawArrays(mode, first, count)
+    // // mode-> type of shape
+    // // first -> specifies what number th vertex is used to draw from
+    // // count -> specifies the number of vertices to be used
+    gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / elementPerVertex);
+    // // gl.drawArrays(gl.POINTS, 0, vertexData.length / elementPerVertex);
+
+    // Cleanup
+    gl.deleteShader(vertexShader);
+    gl.deleteShader(fragmentShader);
+    gl.deleteProgram(shaderProgram);
+    gl.deleteBuffer(buffer); // delete the buffer
+  </script>
+</html>
