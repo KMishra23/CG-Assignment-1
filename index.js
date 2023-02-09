@@ -7,6 +7,8 @@ import { Shader } from "./shader.js";
 import { Triangle } from "../triangle.js";
 import { vec3, mat4 } from 'https://cdn.skypack.dev/gl-matrix';
 import { Triangle3D } from "./3Dtriangle.js";
+import { Square } from "./square.js";
+import { level1 } from "./level1.js";
 
 main();
 
@@ -58,6 +60,10 @@ function main() {
     20, [150, 150], [1.0, 1.0, 0.0, 1]
   )
   circle.transform.rotateAboutSetAxis(45 * Math.PI/180);
+
+  const sq1 = new Square (
+    [20, 20], 40, [1.0, 0.5, 0.5, 1]
+  )
   // var positions = circle.vertexList;
   const tri1 = new Triangle (
     [300, 300],
@@ -66,6 +72,24 @@ function main() {
     [1.0, 0.0, 0.0, 1],
     [150, 150, 0],
   )
+
+
+  // Code to generate level walls
+  const lvl = level1;
+  // console.log(lvl[0].length)
+  for(var row = 0; row < lvl.length; row++) {
+    for(var col = 0; col < lvl[0].length; col++) {
+      // console.log(lvl[row][col]);
+      if(lvl[row][col] == 1) {
+        // console.log(col*10, " ", row*10);
+        var sqr = new Square([col*40, row*40], 40, [1.0, 0.5, 0.5, 1]);
+        scene.add(sqr);
+      }
+    }
+  }
+
+
+
 
   // var positions = [
   //   -0.5, 0.5, 0.5, 0.5, 0.5, -0.5,
@@ -76,6 +100,7 @@ function main() {
   // console.log(positions)
 
   scene.add(circle);
+  // scene.add(sq1);
   // scene.add(tri1);
   // scene.add(tri3D);
   

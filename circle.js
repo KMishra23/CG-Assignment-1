@@ -8,7 +8,7 @@ export class Circle {
         this.color = color;
         this.type = "circle";
 
-        this.numTriangles = 24;
+        this.numTriangles = 20;
         this.vertexList = [];
         this.triangleList = [];
 
