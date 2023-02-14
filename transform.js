@@ -45,17 +45,26 @@ export class Transform
 
 		// Scaling
 		this.scalingMat = mat4.create();
-		mat4.scale(this.scalingMat, this.modelTransformMatrix, this.scale);
+		var temp = vec3.create();
+		vec3.set(temp, this.rotationPoint[0], this.rotationPoint[1], this.rotationPoint[2]);
+		mat4.translate(this.scalingMat, this.modelTransformMatrix, temp);
+		mat4.scale(this.scalingMat, this.scalingMat, this.scale);
+		vec3.set(temp, -this.rotationPoint[0], -this.rotationPoint[1], -this.rotationPoint[2]);
+		mat4.translate(this.scalingMat, this.scalingMat, temp);
 
 		// Linear transformation
-		mat4.multiply(this.modelTransformMatrix, this.translationMat, this.rotationMat);
-		mat4.multiply(this.modelTransformMatrix, this.modelTransformMatrix, this.scalingMat);
+		mat4.multiply(this.modelTransformMatrix, this.translationMat, this.scalingMat);
+		mat4.multiply(this.modelTransformMatrix, this.modelTransformMatrix, this.rotationMat);
 
 	}	
 
 	translation(changeX, changeY) {
 		vec3.set(this.translate, this.translate[0]+changeX, this.translate[1]+changeY, 0);
-		console.log(this.translate);
+		// console.log(this.translate);
+	}
+
+	setPosition(x, y) {
+		vec3.set(this.translate, x, y, 0);
 	}
 
 	rotateAboutSetAxis(angle) {

@@ -21,4 +21,8 @@ export class Square {
         this.transform = new Transform()
         this.transform.rotationPoint = [topLeftCorner[0] + length/2, topLeftCorner[1] + length/2, 0];
     }
+
+    changeColor(color) {
+        this.color = color;
+    }
 }

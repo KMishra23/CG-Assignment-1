@@ -35,4 +35,8 @@ export class Circle {
 
         
     }
+
+    getPosition() {
+        return [this.centrePos[0] + this.transform.translate[0], this.centrePos[1] + this.transform.translate[1]]
+    }
 }

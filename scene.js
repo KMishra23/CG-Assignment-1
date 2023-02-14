@@ -8,7 +8,18 @@ export class Scene {
     }
 
     add(primitive) {
-        this.primitives.push(primitive)
-        console.log(primitive.type + " was added to the scene")
+        if(this.primitives && primitive) {
+            this.primitives.push(primitive)
+            console.log(primitive.type + " was added to the scene")
+        }
+    }
+
+    delete(primitive) {
+        if(this.primitives && primitive) {
+            let i = this.primitives.indexOf(primitive);
+            if(i > -1) {
+                this.primitives.splice(i, 1);
+            }
+        }
     }
 }
