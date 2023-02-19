@@ -28,6 +28,10 @@ export class Pellet {
     }
 
     getPosition() {
-        return this.center;
+        this.transform.updateModelTransformMatrix()
+        var out = vec3.create()
+        var pos = vec3.create()
+        vec3.set(pos, this.centre[0], this.centre[0], 0)
+        return vec3.transformMat4(out, pos, this.transform.lastTransformMatrix)
     }
 }

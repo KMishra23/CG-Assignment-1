@@ -5,7 +5,8 @@ export class Square {
     constructor(topLeftCorner, length, color) {
         this.topLeftCorner = topLeftCorner;
         this.length = length;
-        this.color = color
+        this.color = color;
+        this.originalColor = color;
         this.type = "square";
 
         this.vertexList = [
@@ -24,5 +25,8 @@ export class Square {
 
     changeColor(color) {
         this.color = color;
+    }
+    restoreColor(color) {
+        this.color = this.originalColor;
     }
 }

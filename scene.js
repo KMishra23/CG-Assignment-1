@@ -10,7 +10,7 @@ export class Scene {
     add(primitive) {
         if(this.primitives && primitive) {
             this.primitives.push(primitive)
-            console.log(primitive.type + " was added to the scene")
+            // console.log(primitive.type + " was added to the scene")
         }
     }
 

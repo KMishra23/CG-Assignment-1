@@ -11,7 +11,15 @@ export class Triangle {
 
         this.type = 'triangle';
         this.color = color;
+        this.originalColor = color;
         this.transform = new Transform
         this.transform.rotationPoint = rotationCenter;
+    }
+
+    changeColor(color){
+        this.color = color;
+    }
+    restoreColor(color) {
+        this.color = this.originalColor;
     }
 }
