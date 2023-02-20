@@ -1,4 +1,5 @@
-import { Transform } from "./transform.js";
+import { Transform } from "../transform.js";
+import { vec3, mat4, vec4, mat3 } from 'https://cdn.skypack.dev/gl-matrix';
 
 export class Pellet {
     constructor(center, size, gridCoords, color, type) {
@@ -31,7 +32,7 @@ export class Pellet {
         this.transform.updateModelTransformMatrix()
         var out = vec3.create()
         var pos = vec3.create()
-        vec3.set(pos, this.centre[0], this.centre[0], 0)
+        vec3.set(pos, this.center[0], this.center[1], 0)
         return vec3.transformMat4(out, pos, this.transform.lastTransformMatrix)
     }
 }

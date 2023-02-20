@@ -1,5 +1,4 @@
-import { Triangle } from "./triangle.js";
-import { Transform } from "./transform.js";
+import { Transform } from "../transform.js";
 
 export class Square {
     constructor(topLeftCorner, length, color) {

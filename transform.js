@@ -69,8 +69,8 @@ export class Transform
 		mat4.translate(this.scalingMat, this.scalingMat, temp);
 
 		// Linear transformation
-		mat4.multiply(this.modelTransformMatrix, this.translationMat, this.scalingMat);
-		mat4.multiply(this.modelTransformMatrix, this.modelTransformMatrix, this.rotationMat2);
+		mat4.multiply(this.modelTransformMatrix, this.translationMat, this.rotationMat2);
+		mat4.multiply(this.modelTransformMatrix, this.modelTransformMatrix, this.scalingMat);
 		mat4.multiply(this.modelTransformMatrix, this.modelTransformMatrix, this.rotationMat);
 		
 		// if(flag) this.lastTransformMatrix = this.modelTransformMatrix
@@ -85,20 +85,24 @@ export class Transform
 		vec3.set(this.translate, x, y, 0);
 	}
 
-	rotateAboutSetAxis(angle) {
+	rotateAboutLocalPoint(angle) {
 		this.rotationAngle += angle;
 		// console.log(this.rotationMat)
 		// vec3.set(this.rotationAxis, 0+x, 0+y, 0+z);
 	}
 
-	rotateAboutGlobalAxis(angle) {
+	rotateAboutGlobalPoint(angle) {
 		this.globalAngle += angle;
 		// console.log(this.rotationMat)
 		// vec3.set(this.rotationAxis, 0+x, 0+y, 0+z);
 	}
 
-	setAngleAboutSetAxis(angle) {
+	setAngleAboutLocalPoint(angle) {
 		this.rotationAngle = angle;
+	}
+
+	setAngleAboutGlobalPoint(angle) {
+		this.globalAngle = angle;
 	}
 
 	setRotationAxis(x, y, z) {
@@ -107,6 +111,9 @@ export class Transform
 	
 	setRotationPoint(x, y, z) {
 		this.rotationPoint = [x, y, z];
+	}
+	setGlobalRotationPoint(x, y, z) {
+		this.globalRotationPoint = [x, y, z];
 	}
 
 	setScale(x, y, z) {

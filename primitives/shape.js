@@ -1,4 +1,4 @@
-import { Transform } from "./transform.js";
+import { Transform } from "../transform.js";
 
 export class Shape {
     constructor(vertexList, referencePoint, color, type) {
